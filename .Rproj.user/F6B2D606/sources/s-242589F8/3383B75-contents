@@ -56,5 +56,5 @@ Website
 cd ~/Dropbox/Statistics-R-scripts/site
 git init
 git add .
-git commit -m "some tweaks"
+git commit -m "upload first post"
 git push -u origin master
