@@ -5,14 +5,14 @@
     "dirty" : false,
     "encoding" : "UTF-8",
     "folds" : "",
-    "hash" : "2390561555",
+    "hash" : "2248464396",
     "id" : "897CA3E9",
-    "lastKnownWriteTime" : 1526487550,
-    "last_content_update" : 1526487550990,
+    "lastKnownWriteTime" : 1526488889,
+    "last_content_update" : 1526488889898,
     "path" : "~/Dropbox/Statistics-R-scripts/site/config.toml",
     "project_path" : "config.toml",
     "properties" : {
-        "cursorPosition" : "7,20",
+        "cursorPosition" : "5,11",
         "scrollLine" : "0"
     },
     "relative_order" : 1,
