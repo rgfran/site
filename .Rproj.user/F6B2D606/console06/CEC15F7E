@@ -1,0 +1,4 @@
+]0;~/Dropbox/Statistics-R-scripts/site[?1034hWAT-126-FAC-MB:site rfranklin$ [KWAT-126-FAC-MB:site rfranklin$ emacsbrew cask install emacsemacs[K[Kcd ~/Dropbox/Statistics-R-scripts/site
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
+Reinitialized existing Git repository in /Users/rfranklin/Dropbox/Statistics-R-scripts/site/.git/
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git add .
