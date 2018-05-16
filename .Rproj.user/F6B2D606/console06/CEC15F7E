@@ -2,3 +2,35 @@
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
 Reinitialized existing Git repository in /Users/rfranklin/Dropbox/Statistics-R-scripts/site/.git/
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git add .
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git commit -m "initial upload"
+[master 435310e] initial upload
+ 12 files changed, 398 insertions(+), 1 deletion(-)
+ create mode 100644 .Rproj.user/F6B2D606/console06/CEC15F7E
+ create mode 100644 .Rproj.user/F6B2D606/console06/INDEX001
+ create mode 100644 .Rproj.user/F6B2D606/sources/prop/26EF5E5
+ create mode 100644 .Rproj.user/F6B2D606/sources/prop/F6FCE9FE
+ create mode 100644 .Rproj.user/F6B2D606/sources/prop/INDEX
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/3383B75
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/3383B75-contents
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/897CA3E9
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/897CA3E9-contents
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/lock_file
+ create mode 100644 .Rproj.user/shared/notebooks/patch-chunk-names
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git remote add origin https://github.com/ rgfran/site.git
+fatal: remote origin already exists.
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git push -u origin master
+Counting objects: 19, done.
+Delta compression using up to 4 threads.
+Compressing objects:   5% (1/17)   Compressing objects:  11% (2/17)   Compressing objects:  17% (3/17)   Compressing objects:  23% (4/17)   Compressing objects:  29% (5/17)   Compressing objects:  35% (6/17)   Compressing objects:  41% (7/17)   Compressing objects:  47% (8/17)   Compressing objects:  52% (9/17)   Compressing objects:  58% (10/17)   Compressing objects:  64% (11/17)   Compressing objects:  70% (12/17)   Compressing objects:  76% (13/17)   Compressing objects:  82% (14/17)   Compressing objects:  88% (15/17)   Compressing objects:  94% (16/17)   Compressing objects: 100% (17/17)   Compressing objects: 100% (17/17), done.
+Writing objects:   5% (1/19)   Writing objects:  10% (2/19)   Writing objects:  15% (3/19)   Writing objects:  21% (4/19)   Writing objects:  26% (5/19)   Writing objects:  31% (6/19)   Writing objects:  36% (7/19)   Writing objects:  42% (8/19)   Writing objects:  47% (9/19)   Writing objects:  52% (10/19)   Writing objects:  57% (11/19)   Writing objects:  63% (12/19)   Writing objects:  68% (13/19)   Writing objects:  78% (15/19)   Writing objects:  84% (16/19)   Writing objects:  89% (17/19)   Writing objects:  94% (18/19)   Writing objects: 100% (19/19)   Writing objects: 100% (19/19), 6.28 KiB | 2.09 MiB/s, done.
+Total 19 (delta 2), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/2)   [Kremote: Resolving deltas:  50% (1/2)   [Kremote: Resolving deltas: 100% (2/2)   [Kremote: Resolving deltas: 100% (2/2), completed with 1 local object.[K
+remote: This repository moved. Please use the new location:[K
+remote:   https://github.com/rgfran/website.git[K
+To https://github.com/rgfran/site.git
+   03c24c0..435310e  master -> master
+Branch master set up to track remote branch master from origin.
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ cd ~/Dropbox/Statistics-R-scripts/site
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
+Reinitialized existing Git repository in /Users/rfranklin/Dropbox/Statistics-R-scripts/site/.git/
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git add .
