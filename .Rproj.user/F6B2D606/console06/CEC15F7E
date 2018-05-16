@@ -34,3 +34,22 @@ Branch master set up to track remote branch master from origin.
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
 Reinitialized existing Git repository in /Users/rfranklin/Dropbox/Statistics-R-scripts/site/.git/
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git add .
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git commit -m "initial upload"
+[master 2c161a1] initial upload
+ 4 files changed, 98 insertions(+), 3 deletions(-)
+ create mode 100644 .Rproj.user/F6B2D606/console06/CEC15F7E.env
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git remote add origin https://github.com/ rgfran/site.git
+fatal: remote origin already exists.
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git push -u origin master
+Counting objects: 11, done.
+Delta compression using up to 4 threads.
+Compressing objects:   9% (1/11)   Compressing objects:  18% (2/11)   Compressing objects:  27% (3/11)   Compressing objects:  36% (4/11)   Compressing objects:  45% (5/11)   Compressing objects:  54% (6/11)   Compressing objects:  63% (7/11)   Compressing objects:  72% (8/11)   Compressing objects:  81% (9/11)   Compressing objects:  90% (10/11)   Compressing objects: 100% (11/11)   Compressing objects: 100% (11/11), done.
+Writing objects:   9% (1/11)   Writing objects:  18% (2/11)   Writing objects:  27% (3/11)   Writing objects:  36% (4/11)   Writing objects:  45% (5/11)   Writing objects:  54% (6/11)   Writing objects:  63% (7/11)   Writing objects:  72% (8/11)   Writing objects:  81% (9/11)   Writing objects:  90% (10/11)   Writing objects: 100% (11/11)   Writing objects: 100% (11/11), 2.98 KiB | 2.98 MiB/s, done.
+Total 11 (delta 3), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/3)   [Kremote: Resolving deltas:  33% (1/3)   [Kremote: Resolving deltas:  66% (2/3)   [Kremote: Resolving deltas: 100% (3/3)   [Kremote: Resolving deltas: 100% (3/3), completed with 3 local objects.[K
+remote: This repository moved. Please use the new location:[K
+remote:   https://github.com/rgfran/website.git[K
+To https://github.com/rgfran/site.git
+   435310e..2c161a1  master -> master
+Branch master set up to track remote branch master from origin.
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ 
