@@ -150,3 +150,21 @@ Hugo Static Site Generator v0.40.3 darwin/amd64 BuildDate:
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
 Reinitialized existing Git repository in /Users/rfranklin/Dropbox/Statistics-R-scripts/site/.git/
 ]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git add .
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git commit -m "upload first post"
+[master d5e8f52] upload first post
+ 8 files changed, 71 insertions(+), 4 deletions(-)
+ create mode 100644 .Rproj.user/F6B2D606/sources/prop/29EF6D6B
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/BEF30493
+ create mode 100644 .Rproj.user/F6B2D606/sources/s-242589F8/BEF30493-contents
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git push -u origin master
+Counting objects: 17, done.
+Delta compression using up to 4 threads.
+Compressing objects:   5% (1/17)   Compressing objects:  11% (2/17)   Compressing objects:  17% (3/17)   Compressing objects:  23% (4/17)   Compressing objects:  29% (5/17)   Compressing objects:  35% (6/17)   Compressing objects:  41% (7/17)   Compressing objects:  47% (8/17)   Compressing objects:  52% (9/17)   Compressing objects:  58% (10/17)   Compressing objects:  64% (11/17)   Compressing objects:  70% (12/17)   Compressing objects:  76% (13/17)   Compressing objects:  82% (14/17)   Compressing objects:  88% (15/17)   Compressing objects:  94% (16/17)   Compressing objects: 100% (17/17)   Compressing objects: 100% (17/17), done.
+Writing objects:   5% (1/17)   Writing objects:  11% (2/17)   Writing objects:  17% (3/17)   Writing objects:  23% (4/17)   Writing objects:  29% (5/17)   Writing objects:  35% (6/17)   Writing objects:  41% (7/17)   Writing objects:  47% (8/17)   Writing objects:  52% (9/17)   Writing objects:  58% (10/17)   Writing objects:  64% (11/17)   Writing objects:  70% (12/17)   Writing objects:  76% (13/17)   Writing objects:  82% (14/17)   Writing objects:  88% (15/17)   Writing objects:  94% (16/17)   Writing objects: 100% (17/17)   Writing objects: 100% (17/17), 2.31 KiB | 1.15 MiB/s, done.
+Total 17 (delta 9), reused 0 (delta 0)
+remote: Resolving deltas:   0% (0/9)   [Kremote: Resolving deltas:  11% (1/9)   [Kremote: Resolving deltas:  22% (2/9)   [Kremote: Resolving deltas:  33% (3/9)   [Kremote: Resolving deltas:  44% (4/9)   [Kremote: Resolving deltas:  55% (5/9)   [Kremote: Resolving deltas:  77% (7/9)   [Kremote: Resolving deltas:  88% (8/9)   [Kremote: Resolving deltas: 100% (9/9)   [Kremote: Resolving deltas: 100% (9/9), completed with 8 local objects.[K
+To https://github.com/rgfran/site.git
+   42040cf..d5e8f52  master -> master
+Branch master set up to track remote branch master from origin.
+cd ~/Dropbox/Statistics-R-scripts/site
+]0;~/Dropbox/Statistics-R-scripts/siteWAT-126-FAC-MB:site rfranklin$ git init
