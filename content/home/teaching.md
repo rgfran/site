@@ -18,6 +18,6 @@ weight = 60
 
 One of my passions is teaching R in psychology statistics. There aren't many resources for undergrad students, but here are a few I've found, including the textbook I'm writing. Please send me more if you find them!
 
-- [Statistics: The Story of Numbers](link.html), my draft textbook
+- [Statistics: The Story of Numbers](https://itunes.apple.com/us/book/id1386332438), my draft textbook available on iBooks or as [a bookdown book on GitHub](https://aupsychology.github.io/statsbook/).
 - [Learning Statistics using R](http://compcogscisydney.org/learning-statistics-with-r/)
 - [Learning to Work with R](https://www.psychologicalscience.org/observer/learning-to-work-with-r) from the May 2017 Issue of the APS *Observer*.

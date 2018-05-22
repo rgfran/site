@@ -42,15 +42,6 @@ When I&amp;rsquo;m not in the classroom, I like to grow plants, hike in the wood
     </item>
     
     <item>
-      <title>Recent Publications</title>
-      <link>/home/publications/</link>
-      <pubDate>Wed, 20 Apr 2016 00:00:00 -0400</pubDate>
-      
-      <guid>/home/publications/</guid>
-      <description></description>
-    </item>
-    
-    <item>
       <title>Recent &amp; Upcoming Talks</title>
       <link>/home/talks/</link>
       <pubDate>Wed, 20 Apr 2016 00:00:00 -0400</pubDate>
@@ -84,7 +75,7 @@ When I&amp;rsquo;m not in the classroom, I like to grow plants, hike in the wood
       
       <guid>/home/teaching/</guid>
       <description>One of my passions is teaching R in psychology statistics. There aren&amp;rsquo;t many resources for undergrad students, but here are a few I&amp;rsquo;ve found, including the textbook I&amp;rsquo;m writing. Please send me more if you find them!
- Statistics: The Story of Numbers, my draft textbook Learning Statistics using R Learning to Work with R from the May 2017 Issue of the APS Observer.  </description>
+ Statistics: The Story of Numbers, my draft textbook available on iBooks or as a bookdown book on GitHub. Learning Statistics using R Learning to Work with R from the May 2017 Issue of the APS Observer.</description>
     </item>
     
     <item>
@@ -93,6 +84,15 @@ When I&amp;rsquo;m not in the classroom, I like to grow plants, hike in the wood
       <pubDate>Wed, 20 Sep 2017 00:00:00 -0400</pubDate>
       
       <guid>/home/tags/</guid>
+      <description></description>
+    </item>
+    
+    <item>
+      <title>Recent Publications</title>
+      <link>/home/publications/</link>
+      <pubDate>Wed, 20 Apr 2016 00:00:00 -0400</pubDate>
+      
+      <guid>/home/publications/</guid>
       <description></description>
     </item>
     
