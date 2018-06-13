@@ -1,0 +1,27 @@
+---
+title: Teaching R with RStudio Cloud
+author: Robert Franklin
+date: '2018-06-13'
+slug: teaching-r-with-rstudio-cloud
+categories: []
+tags:
+  - R
+summary: 'My new favorite thing ever: R and RStudio online'
+header:
+  caption: ''
+  image: ''
+---
+
+If you're interested in using R and RStudio to teach statistics, one of the biggest issues is installing and getting started with R. I use RStudio, which is an IDE for R (basically, a shell that runs on top of R and makes it easier to use). But installing R and then installing RStudio can be a bit of a hassle.
+
+This is where I found [https://rstudio.cloud](RStudio Cloud), a great way to check out what R is like. In only a couple of minutes you will have this, a full-fledged RStudio installation to use, and it's online. It is in alpha mode now, and so it may change at any minute, but it's a great way to check out RStudio, especially if you don't have a computer which can accomodate R, such as an iPad.
+
+```{r echo = F}
+knitr::include_graphics('/img/rstudio_cloud_example.png')
+```
+
+So here's how you do it:
+1. Go to [https://rstudio.cloud](RStudio Cloud) and set up an account
+2. Once you do this, you can start your own space. Each space is a set of related projects, each of which have their own options. The recommended workflow in RStudio cloud is that each space would be a group to collaborate, like a class, and each project would be equivalent to an assignment.
+3. Once you make a space, then you can set up your own project. After you add the project, click on the project, and you are brought to your own RStudio window to try out.
+4. The best part of this is that you can share spaces. For instance, you can check out the space I created here for my [Stats Class](https://rstudio.cloud/spaces/2101/join?access_code=Z%2FmsxjgsuoPOmww1K9HRWH4RG6uLYuxUPRDuLsJM).

@@ -1,0 +1,68 @@
+---
+title: "Sentiment analysis in the Bible"
+author: "Robert Franklin"
+date: '2018-05-24'
+slug: sentiment-bible
+draft: true
+tags:
+- R
+- Statistics
+categories: []
+summary: How do emotions vary in different Bible translations
+output:
+  blogdown::html_page:
+    toc: true
+    number_sections: true
+    toc_depth: 1
+---
+
+
+
+<p>I discovered sentiment analysis a few years ago, following interesting work by <a href="http://www.matthewjockers.net">Matthew Jockers</a> and <a href="https://juliasilge.com">Julia Silge</a>. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.</p>
+<p>One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?</p>
+<p>That lead to a different question? How does sentiment vary in different Bible translations? Are some translations more positive than others?</p>
+<p>Within the English-speaking world, there are many options for Bible translations. These options vary based on how they are translated, the source materials they use, and the language they use. Some translations are <em>formal</em> and try to capture each word as literally as possible, whereas others are more <em>dynamic</em>, or a translation which tries to capture the thoughts behind the passages without being as literal. A few translations, such as <em>The Message</em>, are considered as paraphrases, which may not be direct translations but an attempt to capture the deeper meaning while being more flexible regarding the literal meaning.<br />
+I looked at the following translations, abbreviated as such, and listed from most formal to most dynamic:</p>
+<ul>
+<li>NASB: New American Standard Bible</li>
+<li>ESV: English Standard Version</li>
+<li>KJV: King James Version (this version may not do as well in the analysis due to some of the archaic spelling and word choice)</li>
+<li>NKJV: New King James Version: a version of the KJV which modernizes some of the archaic spelling in the KJV</li>
+<li>HCSB: Holman Christian Study Bible</li>
+<li>NIV: New International Version</li>
+<li>NRSVCE: New Revised Standard Version, Catholic Edition</li>
+<li>GNT: Good News Translation</li>
+<li>NIRV: New International Readers Version: A version of the NIV aimed at a lower reading level, such as younger readers</li>
+<li>NLT: New Living Translation</li>
+<li>MSG: The Message</li>
+</ul>
+<p>In this comparison, we wanted to examine whether translations varied in their emotional content by using natural language processing techniques.</p>
+<p>For this blog entry, I’m only presenting the figures. However, I have models in a <a href="https://psyarxiv.com/vru43">working paper that I’m currently working on with Dr. Channing Crisler</a>.</p>
+<p>##Positivity</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>This model examined the effects of positivity and interactions by testament. The ESV, KJV, NIRV, NKJV, and NRSV-CE were significantly less positive than the NIV, whereas the NLT and Message were significantly more positive. The OT was significantly less positive than the NT overall.</p>
+<p>Looking at the OT alone, the ESV, KJV, NKJV, and NRSVCE are significantly less positive than the NIV whereas only the NLT is significantly more positive than the NIV. The Message is more positive though this effect was only marginally significant. The NIV, HCSB, NIRV, and GNT are all roughly the same positivity.</p>
+<p>The NT is similar in many ways. The ESV, KJV, NIRV, and NRSV-CE are significantly less positive than the NIV. Likewise, the NLT is significantly more positive. However, as reflected by the significant interaction between The Message and Testament, the Message is significantly more positive than the NIV when considering the NT.</p>
+<div id="negativity" class="section level2">
+<h2><span class="header-section-number">0.1</span> Negativity</h2>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>This model showed the differences in negativity in the different translations. The NIRV, KJV, and NKJV were significantly less negative than the NIV, whereas only the NASB was significantly more negative than the other translations.</p>
+<p>##Emotionality</p>
+<p>In order to assess emotionality, I added the average positive and negative sentiment as calculated by the Stanford NLP method. This metric was done in order to test hypotheses about emotionality, since the positive and negative analyses seemed to suggest some translations may be more emotional overall than other translations. That means, some translations may have more positivity and negativity combined than other translations which may have less.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>The KJV, NKJV, and NIRV are significantly less emotional than the NIV whereas the Message and NLT are significantly more emotional.</p>
+</div>
+<div id="valence" class="section level2">
+<h2><span class="header-section-number">0.2</span> Valence</h2>
+<p>In addition to emotionality, we wanted to calculate the valence of each translation. This was done by subtracting negativity from positivity, to create a metric that showed the valence, positive or negative. This accounts for overall emotionality so that if a translation is high in positivity and high in negativity, it would be the same overall valence as a translation low in positivity and low in negativity.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>The ESV is the most negative translation compared to NIV, whereas the NASB is more negative than the NIV but not significantly so. The Message, NIRV, and NLT are significantly more positive than the NIV.</p>
+<p>##Syuzhet sentiment
+Probably going to remove this analysis and use the emotionality and valence analysis since it uses the same method as the positivity and negativity. This is for consistency states.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Sentiment analysis shows that using the NIV as a baseline, the ESV and KJV have a more negative sentiment than the NIV, whereas the GNT, the NASB, KJV, NKJV, and NRSV-CE are relatively equal to the NIV,a nd the NLT and The Message are significantly more positive. The NT is more positive than the OT. Notably, the KJV showed an significant positive interaction between version and sentiment so that it had a smaller difference between testaments than the NIV reference group. The Message and NLT had significant negative interaction such that it had a larger difference between testaments than the baseline group.</p>
+<p>The only inconsistency with this and the other method of valence is that this shows the KJV as more negative whereas the other version did not show that and this shows the NIRV as equal to the NIV whereas the other method showed the NIRV as more positive.</p>
+<p>##Summary</p>
+<p>The project shows that different translations have significant variations in their sentiment. The different objectives of the translators may be reflected in the different translations, with a general pattern that more formal translations are more negative when compared to more dynamic translations and paraphrases.</p>
+<p>These differences do not reflect any differences in the accuracy of these translations. When trying to translate a text, especially one written in a different time from a different culture, it is always a balance between conveying the literal word-to-word meanings and the larger meaning in phrases, sentences, and whole passages. To best study a text written in a different language, and to try to best capture the emotional meaning of the text, it’s best to read many translations.</p>
+</div>

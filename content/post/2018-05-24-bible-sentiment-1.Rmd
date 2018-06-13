@@ -1,0 +1,245 @@
+---
+title: "Sentiment analysis in the Bible"
+author: "Robert Franklin"
+date: '2018-05-24'
+slug: sentiment-bible
+draft: true
+tags:
+- R
+- Statistics
+categories: []
+summary: How do emotions vary in different Bible translations
+output:
+  blogdown::html_page:
+    toc: true
+    number_sections: true
+    toc_depth: 1
+---
+I discovered sentiment analysis a few years ago, following interesting work by [Matthew Jockers](http://www.matthewjockers.net) and [Julia Silge](https://juliasilge.com). Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.
+
+One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?
+
+That lead to a different question? How does sentiment vary in different Bible translations? Are some translations more positive than others?
+
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+ 
+
+```{r include = FALSE, message = FALSE, warning = FALSE}
+library(ggplot2)
+library(reshape2)
+library(ggthemes)
+library(viridis)
+library(lme4)
+library(multcomp)
+library(dplyr)
+library(ggridges)
+#load data and process
+load('data/bible_sen.RData')
+#theme information for plots below
+them = theme(text=element_text(size=16)) +
+  theme(panel.border = element_rect(color="black", size = 2, fill = NA),axis.title.y=element_blank()) +
+  theme(axis.text = element_text(color = "black", size = 13)) +
+  theme(axis.text.x = element_text(angle=90, hjust=1))
+sen$translation = ifelse(sen$version == "NASB", "formal","other")
+sen$translation = ifelse(sen$version == "ESV", "formal",sen$translation)
+sen$translation = ifelse(sen$version == "NKJV", "formal",sen$translation)
+sen$translation = ifelse(sen$version == "MSG", "dynamic",sen$translation)
+sen$translation = ifelse(sen$version == "NLT", "dynamic",sen$translation)
+sen$translation = ifelse(sen$version == "GNT", "dynamic",sen$translation)
+formality = c("NLT" = 8, "MSG" = 11, "ESV" = 2,"GNT" = 10, "NIV" = 7, "NASB" = 1, "NKJV" = 4,"KJV" =3,"NIRV"=9,"NRSVCE"=6,"HCSB"=5)
+formality2 = c("NLT" = 10, "MSG" = 11, "ESV" = 2,"GNT" = 8, "NIV" = 6, "NASB" = 1, "NKJV" = 4,"KJV" =3,"NIRV"=9,"NRSVCE"=7,"HCSB"=5) #slight tweak of formality in order to order graphs
+sen$formality = as.numeric(as.character(formality2[sen$version]))
+sen$version = reorder(sen$version, sen$formality)
+
+```
+Within the English-speaking world, there are many options for Bible translations. These options vary based on how they are translated, the source materials they use, and the language they use. Some translations are *formal* and try to capture each word as literally as possible, whereas others are more *dynamic*, or a translation which tries to capture the thoughts behind the passages without being as literal. A few translations, such as *The Message*, are considered as paraphrases, which may not be direct translations but an attempt to capture the deeper meaning while being more flexible regarding the literal meaning.  
+I looked at the following translations, abbreviated as such, and listed from most formal to most dynamic:
+
+* NASB: New American Standard Bible
+* ESV: English Standard Version
+* KJV: King James Version (this version may not do as well in the analysis due to some of the archaic spelling and word choice)
+* NKJV: New King James Version: a version of the KJV which modernizes some of the archaic spelling in the KJV
+* HCSB: Holman Christian Study Bible
+* NIV: New International Version
+* NRSVCE: New Revised Standard Version, Catholic Edition
+* GNT: Good News Translation
+* NIRV: New International Readers Version: A version of the NIV aimed at a lower reading level, such as younger readers
+* NLT: New Living Translation
+* MSG: The Message
+
+
+In this comparison, we wanted to examine whether translations varied in their emotional content by using natural language processing techniques.
+
+For this blog entry, I'm only presenting the figures. However, I have models in a [working paper that I'm currently working on with Dr. Channing Crisler](https://psyarxiv.com/vru43).
+
+
+##Positivity
+
+```{r include = F, echo = F, warning = FALSE}
+d = filter(sen, sen$measure == "positive")
+d$chap = as.factor(d$chapter)
+d$ver = relevel(as.factor(d$version), ref = "NIV")
+m = lmer(score~ver*testament + (1|book) + (1|chap) , data = d)
+summary(m)
+
+
+
+```
+
+```{r echo = F, warning = FALSE}
+data = filter(sen, sen$measure == "positive")
+data$testament = relevel(as.factor(data$testament), ref = "OT")
+ggplot(data, aes(version,score, fill = version)) +
+  stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') +
+  stat_summary(fun.data = mean_se, position = position_dodge(width = 3.5), geom = 'errorbar',size = 1.2) +  
+  facet_grid(testament~.) + 
+  them + scale_fill_brewer(palette="Spectral") + 
+  labs(title = expression(paste("Positivity in The Bible")))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+```
+
+This model examined the effects of positivity and interactions by testament. The ESV, KJV, NIRV, NKJV, and NRSV-CE were significantly less positive than the NIV, whereas the NLT and Message were significantly more positive. The OT was significantly less positive than the NT overall.  
+
+Looking at the OT alone, the ESV, KJV, NKJV, and NRSVCE are significantly less positive than the NIV whereas only the NLT is significantly more positive than the NIV. The Message is more positive though this effect was only marginally significant. The NIV, HCSB, NIRV, and GNT are  all roughly the same positivity.
+
+The NT is similar in many ways. The ESV, KJV, NIRV, and NRSV-CE are significantly less positive than the NIV. Likewise, the NLT is significantly more positive. However, as reflected by the significant interaction between The Message and Testament, the Message is significantly more positive than the NIV when considering the NT.
+
+## Negativity
+
+```{r include = F, echo = F, warning = FALSE}
+d = filter(sen, sen$measure == "negative")
+#d$bookchap = paste(d$book, d$chapter)
+d$chap = as.factor(d$chapter)
+d$ver = relevel(as.factor(d$version), ref = "NIV")
+m = lmer(score~ver*testament + (1|book) + (1|chap) , data = d)
+summary(m)
+
+
+
+```
+
+```{r echo = F, warning = FALSE}
+data = filter(sen, sen$measure == "negative")
+data$testament = relevel(as.factor(data$testament), ref = "OT")
+ggplot(data, aes(version,score, fill = version)) +
+  stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') +
+  stat_summary(fun.data = mean_se, position = 'dodge', geom = 'errorbar',size = 1.2) +  
+  facet_grid(testament~.) +  
+  them + scale_fill_brewer(palette="Spectral") + 
+  labs(title = expression(paste("Negativity in The Bible")))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+```
+
+This model showed the differences in negativity in the different translations. The NIRV, KJV, and NKJV were significantly less negative than the NIV, whereas only the NASB was significantly more negative than the other translations.
+
+##Emotionality
+
+In order to assess emotionality, I added the average positive and negative sentiment as calculated by the Stanford NLP method. This metric was done in order to test hypotheses about emotionality, since the positive and negative analyses seemed to suggest some translations may be more emotional overall than other translations. That means, some translations may have more positivity and negativity combined than other translations which may have less.
+
+```{r include = F, echo = F, warning = FALSE}
+d = filter(sen, sen$measure == "positive" | sen$measure == "negative")
+d$value = d$score
+d = dcast(d, chapter+book+version+testament~measure, mean)
+d$emotionality = d$negative + d$positive
+d$valence = d$positive - d$negative
+#d$bookchap = paste(d$book, d$chapter)
+d$chap = as.factor(d$chapter)
+d$ver = relevel(as.factor(d$version), ref = "NIV")
+m = lmer(emotionality~ver*testament + (1|book) + (1|chap) , data = d)
+summary(m)
+
+ggplot(d, aes(version,emotionality, fill = version)) +
+  stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') +
+  stat_summary(fun.data = mean_se, position = 'dodge', geom = 'errorbar',size = 1.2) +  
+  facet_grid(testament~.) +  
+  them + scale_fill_brewer(palette="Spectral") + 
+  labs(title = expression(paste("Emotionality in The Bible")))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+
+
+```
+
+```{r echo = F, warning = FALSE}
+data = d
+data$testament = relevel(as.factor(data$testament), ref = "OT")
+graph = ggplot(data, aes(version,emotionality, fill=testament))
+graph + stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') + 
+  stat_summary(fun.data = mean_se, position = 'dodge', geom = 'errorbar',size = 1.2) +  
+  scale_color_viridis() + them+
+  labs(title = expression(paste("Emotionality in ", italic("The Bible"))))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+```
+
+The KJV, NKJV, and NIRV are significantly less emotional than the NIV whereas the Message and NLT are significantly more emotional. 
+
+
+## Valence
+In addition to emotionality, we wanted to calculate the valence of each translation. This was done by subtracting negativity from positivity, to create a metric that showed the valence, positive or negative. This accounts for overall emotionality so that if a translation is high in positivity and high in negativity, it would be the same overall valence as a translation low in positivity and low in negativity.
+```{r include = F, echo = F, warning = FALSE}
+d$chap = as.factor(d$chapter)
+d$ver = relevel(as.factor(d$version), ref = "NIV")
+m = lmer(valence~ver*testament + (1|book) + (1|chap) , data = d)
+summary(m)
+#Tukey contrasts for each of the hypotheses
+#summary(glht(m, mcp(ver="Tukey")))
+
+
+```
+
+```{r echo = F, warning = FALSE}
+d$testament = relevel(as.factor(d$testament), ref = "OT")
+graph = ggplot(d, aes(version,valence, fill=version))
+graph + stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') + 
+  stat_summary(fun.data = mean_se, position = 'dodge', geom = 'errorbar',size = 1.2) +
+  facet_grid(testament~.) +  
+  them + scale_fill_brewer(palette="Spectral") + 
+  labs(title = expression(paste("Valence in The Bible")))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+```
+
+The ESV is the most negative translation compared to NIV, whereas the NASB is more negative than the NIV but not significantly so. The Message, NIRV, and NLT are significantly more positive than the NIV. 
+
+##Syuzhet sentiment
+Probably going to remove this analysis and use the emotionality and valence analysis  since it uses the same method as the positivity and negativity. This is for consistency states.
+```{r include = F,echo = F, warning = FALSE}
+d = filter(sen, sen$measure == "sentimentBing")
+#d$bookchap = paste(d$book, d$chapter)
+d$chap = as.factor(d$chapter)
+d$ver = relevel(as.factor(d$version), ref = "NIV")
+m = lmer(score~ver*testament + (1|book) + (1|chap) , data = d)
+summary(m)
+
+
+
+```
+
+```{r echo = F, warning = FALSE}
+data = filter(sen, sen$measure == "sentimentBing")
+data$testament = relevel(as.factor(data$testament), ref = "OT")
+graph = ggplot(data, aes(version,score, fill=testament))
+graph + stat_summary(fun.y = mean, geom = 'bar', position = 'dodge') + 
+  stat_summary(fun.data = mean_se, position = 'dodge', geom = 'errorbar',size = 1.2) +  
+  them + scale_fill_brewer(palette="Spectral") + 
+  labs(title = expression(paste("Positivity in The Bible")))+
+  theme(axis.title.x=element_blank()) +
+  theme(axis.ticks.x=element_blank()) 
+```
+
+Sentiment analysis shows that using the NIV as a baseline, the ESV and KJV have a more negative sentiment than the NIV, whereas the GNT, the NASB, KJV, NKJV, and NRSV-CE are relatively equal to the NIV,a nd the NLT and The Message are significantly more positive. The NT is more positive than the OT. Notably, the KJV showed an significant positive interaction between version and sentiment so that it had a smaller difference between testaments than the NIV reference group. The Message and NLT had significant negative interaction such that it had a larger difference between testaments than the baseline group.
+
+The only inconsistency with this and the other method of valence is that this shows the KJV as more negative whereas the other version did not show that and this shows the NIRV as equal to the NIV whereas the other method showed the NIRV as more positive.
+
+##Summary
+
+The project shows that different translations have significant variations in their sentiment. The different objectives of the translators may be reflected in the different translations, with a general pattern that more formal translations are more negative when compared to more dynamic translations and paraphrases.
+
+These differences do not reflect any differences in the accuracy of these translations. When trying to translate a text, especially one written in a different time from a different culture, it is always a balance between conveying the literal word-to-word meanings and the larger meaning in phrases, sentences, and whole passages. To best study a text written in a different language, and to try to best capture the emotional meaning of the text, it's best to read many translations.

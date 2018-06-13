@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes" ?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Statistics on Robert Franklin</title>
+    <link>/tags/statistics/</link>
+    <description>Recent content in Statistics on Robert Franklin</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en-us</language>
+    <copyright>&amp;copy; 2018</copyright>
+    <lastBuildDate>Thu, 24 May 2018 00:00:00 +0000</lastBuildDate>
+    
+	<atom:link href="/tags/statistics/index.xml" rel="self" type="application/rss+xml" />
+    
+    
+    <item>
+      <title>Sentiment analysis in the Bible</title>
+      <link>/post/sentiment-bible/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sentiment-bible/</guid>
+      <description>I discovered sentiment analysis a few years ago, following interesting work by Matthew Jockers and Julia Silge. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.
+One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?</description>
+    </item>
+    
+  </channel>
+</rss>

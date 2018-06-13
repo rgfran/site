@@ -11,6 +11,80 @@
     <atom:link href="/" rel="self" type="application/rss+xml" />
     
     <item>
+      <title>Teaching R with RStudio Cloud</title>
+      <link>/post/teaching-r-with-rstudio-cloud/</link>
+      <pubDate>Wed, 13 Jun 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/teaching-r-with-rstudio-cloud/</guid>
+      <description>&lt;p&gt;If you’re interested in using R and RStudio to teach statistics, one of the biggest issues is installing and getting started with R. I use RStudio, which is an IDE for R (basically, a shell that runs on top of R and makes it easier to use). But installing R and then installing RStudio can be a bit of a hassle.&lt;/p&gt;
+&lt;p&gt;This is where I found &lt;a href=&#34;RStudio%20Cloud&#34;&gt;https://rstudio.cloud&lt;/a&gt;, a great way to check out what R is like. In only a couple of minutes you will have this, a full-fledged RStudio installation to use, and it’s online. It is in alpha mode now, and so it may change at any minute, but it’s a great way to check out RStudio, especially if you don’t have a computer which can accomodate R, such as an iPad.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/img/rstudio_cloud_example.png&#34; /&gt;&lt;!-- --&gt;&lt;/p&gt;
+&lt;p&gt;So here’s how you do it:
+1. Go to &lt;a href=&#34;RStudio%20Cloud&#34;&gt;https://rstudio.cloud&lt;/a&gt; and set up an account
+2. Once you do this, you can start your own space. Each space is a set of related projects, each of which have their own options. The recommended workflow in RStudio cloud is that each space would be a group to collaborate, like a class, and each project would be equivalent to an assignment.
+3. Once you make a space, then you can set up your own project. After you add the project, click on the project, and you are brought to your own RStudio window to try out.
+4. The best part of this is that you can share spaces. For instance, you can check out the space I created here for my &lt;a href=&#34;https://rstudio.cloud/spaces/2101/join?access_code=Z%2FmsxjgsuoPOmww1K9HRWH4RG6uLYuxUPRDuLsJM&#34;&gt;Stats Class&lt;/a&gt;.&lt;/p&gt;
+</description>
+    </item>
+    
+    <item>
+      <title>Sentiment analysis in the Bible</title>
+      <link>/post/sentiment-bible/</link>
+      <pubDate>Thu, 24 May 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/sentiment-bible/</guid>
+      <description>&lt;p&gt;I discovered sentiment analysis a few years ago, following interesting work by &lt;a href=&#34;http://www.matthewjockers.net&#34;&gt;Matthew Jockers&lt;/a&gt; and &lt;a href=&#34;https://juliasilge.com&#34;&gt;Julia Silge&lt;/a&gt;. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.&lt;/p&gt;
+&lt;p&gt;One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?&lt;/p&gt;
+&lt;p&gt;That lead to a different question? How does sentiment vary in different Bible translations? Are some translations more positive than others?&lt;/p&gt;
+&lt;p&gt;Within the English-speaking world, there are many options for Bible translations. These options vary based on how they are translated, the source materials they use, and the language they use. Some translations are &lt;em&gt;formal&lt;/em&gt; and try to capture each word as literally as possible, whereas others are more &lt;em&gt;dynamic&lt;/em&gt;, or a translation which tries to capture the thoughts behind the passages without being as literal. A few translations, such as &lt;em&gt;The Message&lt;/em&gt;, are considered as paraphrases, which may not be direct translations but an attempt to capture the deeper meaning while being more flexible regarding the literal meaning.&lt;br /&gt;
+I looked at the following translations, abbreviated as such, and listed from most formal to most dynamic:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;NASB: New American Standard Bible&lt;/li&gt;
+&lt;li&gt;ESV: English Standard Version&lt;/li&gt;
+&lt;li&gt;KJV: King James Version (this version may not do as well in the analysis due to some of the archaic spelling and word choice)&lt;/li&gt;
+&lt;li&gt;NKJV: New King James Version: a version of the KJV which modernizes some of the archaic spelling in the KJV&lt;/li&gt;
+&lt;li&gt;HCSB: Holman Christian Study Bible&lt;/li&gt;
+&lt;li&gt;NIV: New International Version&lt;/li&gt;
+&lt;li&gt;NRSVCE: New Revised Standard Version, Catholic Edition&lt;/li&gt;
+&lt;li&gt;GNT: Good News Translation&lt;/li&gt;
+&lt;li&gt;NIRV: New International Readers Version: A version of the NIV aimed at a lower reading level, such as younger readers&lt;/li&gt;
+&lt;li&gt;NLT: New Living Translation&lt;/li&gt;
+&lt;li&gt;MSG: The Message&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;In this comparison, we wanted to examine whether translations varied in their emotional content by using natural language processing techniques.&lt;/p&gt;
+&lt;p&gt;For this blog entry, I’m only presenting the figures. However, I have models in a &lt;a href=&#34;https://psyarxiv.com/vru43&#34;&gt;working paper that I’m currently working on with Dr. Channing Crisler&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;##Positivity&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-3-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This model examined the effects of positivity and interactions by testament. The ESV, KJV, NIRV, NKJV, and NRSV-CE were significantly less positive than the NIV, whereas the NLT and Message were significantly more positive. The OT was significantly less positive than the NT overall.&lt;/p&gt;
+&lt;p&gt;Looking at the OT alone, the ESV, KJV, NKJV, and NRSVCE are significantly less positive than the NIV whereas only the NLT is significantly more positive than the NIV. The Message is more positive though this effect was only marginally significant. The NIV, HCSB, NIRV, and GNT are all roughly the same positivity.&lt;/p&gt;
+&lt;p&gt;The NT is similar in many ways. The ESV, KJV, NIRV, and NRSV-CE are significantly less positive than the NIV. Likewise, the NLT is significantly more positive. However, as reflected by the significant interaction between The Message and Testament, the Message is significantly more positive than the NIV when considering the NT.&lt;/p&gt;
+&lt;div id=&#34;negativity&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;0.1&lt;/span&gt; Negativity&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-5-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;This model showed the differences in negativity in the different translations. The NIRV, KJV, and NKJV were significantly less negative than the NIV, whereas only the NASB was significantly more negative than the other translations.&lt;/p&gt;
+&lt;p&gt;##Emotionality&lt;/p&gt;
+&lt;p&gt;In order to assess emotionality, I added the average positive and negative sentiment as calculated by the Stanford NLP method. This metric was done in order to test hypotheses about emotionality, since the positive and negative analyses seemed to suggest some translations may be more emotional overall than other translations. That means, some translations may have more positivity and negativity combined than other translations which may have less.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-7-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The KJV, NKJV, and NIRV are significantly less emotional than the NIV whereas the Message and NLT are significantly more emotional.&lt;/p&gt;
+&lt;/div&gt;
+&lt;div id=&#34;valence&#34; class=&#34;section level2&#34;&gt;
+&lt;h2&gt;&lt;span class=&#34;header-section-number&#34;&gt;0.2&lt;/span&gt; Valence&lt;/h2&gt;
+&lt;p&gt;In addition to emotionality, we wanted to calculate the valence of each translation. This was done by subtracting negativity from positivity, to create a metric that showed the valence, positive or negative. This accounts for overall emotionality so that if a translation is high in positivity and high in negativity, it would be the same overall valence as a translation low in positivity and low in negativity.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-9-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;The ESV is the most negative translation compared to NIV, whereas the NASB is more negative than the NIV but not significantly so. The Message, NIRV, and NLT are significantly more positive than the NIV.&lt;/p&gt;
+&lt;p&gt;##Syuzhet sentiment
+Probably going to remove this analysis and use the emotionality and valence analysis since it uses the same method as the positivity and negativity. This is for consistency states.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&#34;/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-11-1.png&#34; width=&#34;672&#34; /&gt;&lt;/p&gt;
+&lt;p&gt;Sentiment analysis shows that using the NIV as a baseline, the ESV and KJV have a more negative sentiment than the NIV, whereas the GNT, the NASB, KJV, NKJV, and NRSV-CE are relatively equal to the NIV,a nd the NLT and The Message are significantly more positive. The NT is more positive than the OT. Notably, the KJV showed an significant positive interaction between version and sentiment so that it had a smaller difference between testaments than the NIV reference group. The Message and NLT had significant negative interaction such that it had a larger difference between testaments than the baseline group.&lt;/p&gt;
+&lt;p&gt;The only inconsistency with this and the other method of valence is that this shows the KJV as more negative whereas the other version did not show that and this shows the NIRV as equal to the NIV whereas the other method showed the NIRV as more positive.&lt;/p&gt;
+&lt;p&gt;##Summary&lt;/p&gt;
+&lt;p&gt;The project shows that different translations have significant variations in their sentiment. The different objectives of the translators may be reflected in the different translations, with a general pattern that more formal translations are more negative when compared to more dynamic translations and paraphrases.&lt;/p&gt;
+&lt;p&gt;These differences do not reflect any differences in the accuracy of these translations. When trying to translate a text, especially one written in a different time from a different culture, it is always a balance between conveying the literal word-to-word meanings and the larger meaning in phrases, sentences, and whole passages. To best study a text written in a different language, and to try to best capture the emotional meaning of the text, it’s best to read many translations.&lt;/p&gt;
+&lt;/div&gt;
+</description>
+    </item>
+    
+    <item>
       <title>Reading the lines in the face: The contribution of angularity and roundness to perceptions of facial anger and joy</title>
       <link>/publication/emotion2018/</link>
       <pubDate>Fri, 18 May 2018 00:00:00 +0000</pubDate>

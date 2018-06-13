@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes" ?>
 <rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
   <channel>
-    <title>Posts on Robert Franklin</title>
-    <link>/post/</link>
-    <description>Recent content in Posts on Robert Franklin</description>
+    <title>R on Robert Franklin</title>
+    <link>/tags/r/</link>
+    <description>Recent content in R on Robert Franklin</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Sun, 01 Jan 2017 00:00:00 -0500</lastBuildDate>
+    <lastBuildDate>Wed, 13 Jun 2018 00:00:00 +0000</lastBuildDate>
     
-	<atom:link href="/post/index.xml" rel="self" type="application/rss+xml" />
+	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
     
     <item>
@@ -30,16 +30,6 @@ This is where I found https://rstudio.cloud, a great way to check out what R is 
       <guid>/post/sentiment-bible/</guid>
       <description>I discovered sentiment analysis a few years ago, following interesting work by Matthew Jockers and Julia Silge. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.
 One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?</description>
-    </item>
-    
-    <item>
-      <title>First post</title>
-      <link>/post/first-post/</link>
-      <pubDate>Wed, 16 May 2018 00:00:00 +0000</pubDate>
-      
-      <guid>/post/first-post/</guid>
-      <description>First post Welcome to the blog. Here, I want to provide a place to post whatever interesting thoughts I have about data, psychology, philosophy, and whatever educational resources I can find. I&amp;rsquo;ve listed resources for R elsewhere on the site, but I will post whatever I find interesting here.
-If you&amp;rsquo;re reading this, you may be my student, (because I made you read it!), or someone who found this through something else.</description>
     </item>
     
   </channel>

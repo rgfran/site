@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.40.3" />
+  <meta name="author" content="Robert G. Franklin, Jr.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="I discovered sentiment analysis a few years ago, following interesting work by Matthew Jockers and Julia Silge. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.
+One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/sentiment-bible/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#3f51b5">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7cMerriweather%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-119406996-1', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert Franklin">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert Franklin">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/sentiment-bible/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@psydrfranklin">
+  <meta property="twitter:creator" content="@psydrfranklin">
+  
+  <meta property="og:site_name" content="Robert Franklin">
+  <meta property="og:url" content="/post/sentiment-bible/">
+  <meta property="og:title" content="Sentiment analysis in the Bible | Robert Franklin">
+  <meta property="og:description" content="I discovered sentiment analysis a few years ago, following interesting work by Matthew Jockers and Julia Silge. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.
+One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-05-24T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-05-24T00:00:00&#43;00:00">
+  
+
+  
+  
+
+  <title>Sentiment analysis in the Bible | Robert Franklin</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Robert Franklin</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>R Information</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Sentiment analysis in the Bible</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-05-24 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      May 24, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert G. Franklin, Jr.">
+  </span>
+
+  
+
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Sentiment%20analysis%20in%20the%20Bible&amp;url=%2fpost%2fsentiment-bible%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fsentiment-bible%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fsentiment-bible%2f&amp;title=Sentiment%20analysis%20in%20the%20Bible"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fsentiment-bible%2f&amp;title=Sentiment%20analysis%20in%20the%20Bible"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Sentiment%20analysis%20in%20the%20Bible&amp;body=%2fpost%2fsentiment-bible%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <p>I discovered sentiment analysis a few years ago, following interesting work by <a href="http://www.matthewjockers.net">Matthew Jockers</a> and <a href="https://juliasilge.com">Julia Silge</a>. Sentiment analysis is a way to compare the emotional content of text by analyzing the frequency of certain words that reflect different emotions. This could be positivity or negativity or the use of specific emotional words.</p>
+<p>One idea I wanted to do was analyze the sentiment of the Christian Bible. But before exploring this, I had a question: which version should I use?</p>
+<p>That lead to a different question? How does sentiment vary in different Bible translations? Are some translations more positive than others?</p>
+<p>Within the English-speaking world, there are many options for Bible translations. These options vary based on how they are translated, the source materials they use, and the language they use. Some translations are <em>formal</em> and try to capture each word as literally as possible, whereas others are more <em>dynamic</em>, or a translation which tries to capture the thoughts behind the passages without being as literal. A few translations, such as <em>The Message</em>, are considered as paraphrases, which may not be direct translations but an attempt to capture the deeper meaning while being more flexible regarding the literal meaning.<br />
+I looked at the following translations, abbreviated as such, and listed from most formal to most dynamic:</p>
+<ul>
+<li>NASB: New American Standard Bible</li>
+<li>ESV: English Standard Version</li>
+<li>KJV: King James Version (this version may not do as well in the analysis due to some of the archaic spelling and word choice)</li>
+<li>NKJV: New King James Version: a version of the KJV which modernizes some of the archaic spelling in the KJV</li>
+<li>HCSB: Holman Christian Study Bible</li>
+<li>NIV: New International Version</li>
+<li>NRSVCE: New Revised Standard Version, Catholic Edition</li>
+<li>GNT: Good News Translation</li>
+<li>NIRV: New International Readers Version: A version of the NIV aimed at a lower reading level, such as younger readers</li>
+<li>NLT: New Living Translation</li>
+<li>MSG: The Message</li>
+</ul>
+<p>In this comparison, we wanted to examine whether translations varied in their emotional content by using natural language processing techniques.</p>
+<p>For this blog entry, I’m only presenting the figures. However, I have models in a <a href="https://psyarxiv.com/vru43">working paper that I’m currently working on with Dr. Channing Crisler</a>.</p>
+<p>##Positivity</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
+<p>This model examined the effects of positivity and interactions by testament. The ESV, KJV, NIRV, NKJV, and NRSV-CE were significantly less positive than the NIV, whereas the NLT and Message were significantly more positive. The OT was significantly less positive than the NT overall.</p>
+<p>Looking at the OT alone, the ESV, KJV, NKJV, and NRSVCE are significantly less positive than the NIV whereas only the NLT is significantly more positive than the NIV. The Message is more positive though this effect was only marginally significant. The NIV, HCSB, NIRV, and GNT are all roughly the same positivity.</p>
+<p>The NT is similar in many ways. The ESV, KJV, NIRV, and NRSV-CE are significantly less positive than the NIV. Likewise, the NLT is significantly more positive. However, as reflected by the significant interaction between The Message and Testament, the Message is significantly more positive than the NIV when considering the NT.</p>
+<div id="negativity" class="section level2">
+<h2><span class="header-section-number">0.1</span> Negativity</h2>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-5-1.png" width="672" /></p>
+<p>This model showed the differences in negativity in the different translations. The NIRV, KJV, and NKJV were significantly less negative than the NIV, whereas only the NASB was significantly more negative than the other translations.</p>
+<p>##Emotionality</p>
+<p>In order to assess emotionality, I added the average positive and negative sentiment as calculated by the Stanford NLP method. This metric was done in order to test hypotheses about emotionality, since the positive and negative analyses seemed to suggest some translations may be more emotional overall than other translations. That means, some translations may have more positivity and negativity combined than other translations which may have less.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+<p>The KJV, NKJV, and NIRV are significantly less emotional than the NIV whereas the Message and NLT are significantly more emotional.</p>
+</div>
+<div id="valence" class="section level2">
+<h2><span class="header-section-number">0.2</span> Valence</h2>
+<p>In addition to emotionality, we wanted to calculate the valence of each translation. This was done by subtracting negativity from positivity, to create a metric that showed the valence, positive or negative. This accounts for overall emotionality so that if a translation is high in positivity and high in negativity, it would be the same overall valence as a translation low in positivity and low in negativity.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-9-1.png" width="672" /></p>
+<p>The ESV is the most negative translation compared to NIV, whereas the NASB is more negative than the NIV but not significantly so. The Message, NIRV, and NLT are significantly more positive than the NIV.</p>
+<p>##Syuzhet sentiment
+Probably going to remove this analysis and use the emotionality and valence analysis since it uses the same method as the positivity and negativity. This is for consistency states.</p>
+<p><img src="/post/2018-05-24-bible-sentiment-1_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<p>Sentiment analysis shows that using the NIV as a baseline, the ESV and KJV have a more negative sentiment than the NIV, whereas the GNT, the NASB, KJV, NKJV, and NRSV-CE are relatively equal to the NIV,a nd the NLT and The Message are significantly more positive. The NT is more positive than the OT. Notably, the KJV showed an significant positive interaction between version and sentiment so that it had a smaller difference between testaments than the NIV reference group. The Message and NLT had significant negative interaction such that it had a larger difference between testaments than the baseline group.</p>
+<p>The only inconsistency with this and the other method of valence is that this shows the KJV as more negative whereas the other version did not show that and this shows the NIRV as equal to the NIV whereas the other method showed the NIRV as more positive.</p>
+<p>##Summary</p>
+<p>The project shows that different translations have significant variations in their sentiment. The different objectives of the translators may be reflected in the different translations, with a general pattern that more formal translations are more negative when compared to more dynamic translations and paraphrases.</p>
+<p>These differences do not reflect any differences in the accuracy of these translations. When trying to translate a text, especially one written in a different time from a different culture, it is always a balance between conveying the literal word-to-word meanings and the larger meaning in phrases, sentences, and whole passages. To best study a text written in a different language, and to try to best capture the emotional meaning of the text, it’s best to read many translations.</p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r/">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/statistics/">Statistics</a>
+  
+</div>
+
+
+
+
+    
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
