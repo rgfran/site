@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Wed, 13 Jun 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Thu, 02 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cluster Analysis of Baseball Hall of Fame ballots</title>
+      <link>/post/cluster-hof-2018/</link>
+      <pubDate>Thu, 02 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/cluster-hof-2018/</guid>
+      <description>This is an analysis of how different voters vote for the baseball Hall of Fame, using cluster analysis using 2018 data.
+The main motivation for this analysis is to examine patterns in voting, in order to see what kind of voters exist. I wanted to use a dataset to explore cluster analysis and try to teach myself this technique. The idea was to find a dataset where I had a hypothesis about what kind of clusters to expect, then to examine whether those clusters were there.</description>
+    </item>
     
     <item>
       <title>Teaching R with RStudio Cloud</title>

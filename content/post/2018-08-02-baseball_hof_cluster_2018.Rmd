@@ -1,0 +1,135 @@
+
+---
+title: Cluster Analysis of Baseball Hall of Fame ballots
+author: Robert Franklin
+date: '2018-08-02'
+slug: cluster-hof-2018
+draft: true
+categories: []
+tags:
+  - R
+  - Baseball
+summary: 'The four types of Hall of Fame Voters'
+header:
+  caption: ''
+  image: ''
+---
+
+This is an analysis of how different voters vote for the baseball Hall of Fame, using cluster analysis using 2018 data.
+
+The  main motivation for this analysis is to examine patterns in voting, in order to see what kind of voters exist. I wanted to use a dataset to explore cluster analysis and try to teach myself this technique. The idea was to find a dataset where I had a hypothesis about what kind of clusters to expect, then to examine whether those clusters were there.
+
+The Baseball Hall of Fame has hundreds of voters vote every year in order to choose which candidates will enter the Hall of Fame. There are a few basic principles about this. Voters choose between 0 and 10 candidates on a ballot. A candidate needs to be on 75% of all ballots to be elected. Candidates need to receive at least 5% of the votes to stay on the ballot, and they have 10 years to be elected, or else they are removed.
+
+The main idea about recent Hall of Fame voting is what to do with candidates such as Barry Bonds and Roger Clemens, who had stellar careers, but are tainted with significant allegations that they used performance enhancing drugs (PEDs). Some voters believe that none of these candidates should be elected, others think that some of these candidates may be worthy, based on what they did before using PEDs, and some voters believe using PEDs is not something to consider because they were not technically banned for most of these candidates' careers.
+
+This creates the theory that voters should sort into two clusters. In order to analyze the data, I collected publicly available ballots compiled from the [Baseball Hall of Fame Tracker](http://www.bbhoftracker.com). This compiles the votes for all voters who made their ballots publicly available, which is a non-representative sample of all ballots. Nonetheless, it's interesting data to consider. 
+
+I took the relevant data and formatted it into a spreadsheet with the candidates as rows and the voters as columns, and changed the data to code a vote as 1 and no vote as 0.
+
+First, the R libraries I used.
+
+```{r warning = F, message = F}
+library(ape)
+library(psych)
+library(tidyverse)
+library(pander)
+```
+
+I loaded the data and removed any blank ballots, that is, the person didn't vote for any candidate. I did this in order to remove any clusters that were blank ballots, as they would form their own clusters.
+```{r}
+hof2018 = read.csv('data/hof_votes_2018.csv', row.names = 1)
+hof2018 = hof2018[apply(hof2018,1,sum)>0,]
+```
+
+Now the clustering analysis. I start out with a binary distance matrix, because the data are dichotomous (yes/no). Then I do the hierarchical cluster of the matrix. I played with a couple other options, but did not find major differences, so I went with the first approach.
+
+```{r}
+ddd = dist(hof2018, method = 'binary')
+hc <- hclust(ddd)
+```
+
+To visualize the data, I used the `ape` package to create a phylogenetic tree. Since there are hundreds of voters, I removed the labels.
+
+```{r}
+plot.phylo(as.phylo(hc), type="p", edge.width=2, 
+           show.tip.label = F, show.node.label = F, no.margin=TRUE)
+#plot(as.phylo(hc), cex = 0.9)
+```
+
+When looking at this, there appear to be two voters who break off from the rest of the voters. Other than that, there are two main clusters, each with two subsets of clusters. To explore a little further and decided to look at the four biggest clusters. In order to do this, we can use the `cutree()` function, which breaks the cluster in as many groups as possible.
+
+```{r}
+hof2018$cluster = cutree(hc, 5)
+
+
+```
+
+This shows the five different groups. It's really hard to see the fifth group, which are two blue names at the bottom of this plot. This plot is ugly, but I couldn't figure out a better way to highlight the five different clusters. Suggestions welcome!
+
+```{r}
+plot.phylo(as.phylo(hc), type="p", tip.color =hof2018$cluster, edge.width=2, 
+           show.tip.label = T, show.node.label = T, no.margin=TRUE)
+```
+
+First, what about those two odd voters in group 5, who are a cluster all to themselves. What do their ballots look like?
+
+```{r results = 'asis'}
+
+pandoc.table(t(subset(hof2018[,c(4,5,18,19)], hof2018$cluster == 5)), style='rmarkdown')
+```
+They are a cluster among themselves because they had no clear rationale who they were voting for. The main difference that made them a separate category, was that neither voted for Chipper Jones. Only 4 voters did not vote for Jones, who received 99% support. [Livingston](https://articles.cleveland.com/livingston/index.ssf/2017/12/my_baseball_hall_of_fame_ballo.amp) only voted for Thome and Vizquel, because they were Cleveland Indians.  I'm going to remove them from the analysis and only focus on the other 4 clusters.
+
+Here are the mean number of votes each candidate received, based on the different clusters.
+
+
+```{r warning = F}
+options(digits=2)
+x = filter(hof2018, cluster < 5) %>% group_by(cluster) %>% summarize_all(funs(mean))
+```
+
+```{r results = 'asis'}
+o = data.frame(t(x[,2:22]))
+colnames(o) = c("Cluster 1", "Cluster 2", "Cluster 3", "Cluster 4")
+pandoc.table(o, style='rmarkdown')
+```
+
+
+When we look at the four groups, we can see clearly what are the attributes that divide them. Groups 1 and 3 voted almost unanimously for Bonds and Clemens, who have impeccable Hall of Fame credentials but are known for using PEDs, whereas Groups 2 and 4 almost completely did not vote for these users. But what else defined these groups? 
+
+Group 1 did not like pitchers, relative to group 3, the other group who supported PEDs. Group 1 voted less for Trevor Hoffman than any other group. Hoffman who was a prolific closer. Since closers are pitchers who only pitch for an inning or two at most, they are seen as intrinsically less valuable than starting pitchers. Group 1 also liked other pitchers less than Group 3. Group 1 did like Larry Walker, much more than the other groups, giving him almost 75% support, whereas the other groups had a mean support of less than 40%. I'll call Group 1 the "Hitters", because they were biased for hitters, versus pitchers.
+
+Group 2 is like Group 4, because they both reject steroid users. However, Group 2 is a bit different because they use most of the ballot (see below) and were more likely to vote with Groups 1 and 3 on pitchers and on Edgar Martinez. I'll call Group 2 the "NO PED" group.
+
+In contrast to Group 1, Group 3 supported PED users and supported pitchers more than group 1. We'll call them "the Pitchers"
+
+Group 4, along with disliking steroid users, did not like the starting pitchers on the ballot. Mike Mussina and Curt Schilling, received over 50% support from all the other groups, but only 6% of support from Group 4.  This is really surprising because the closer Hoffman was on 78% of the ballots in Group 4. received a higher percentage of votes than Schilling and Mussina.
+
+Group 4 was the most dissimilar, as it broke off from the other 3 groups at the highest level. I'll title Group 4 as "The Gatekeepers", since they tend to favor few candidates, do not like PED users, and did not like any other marginal candidates, with the strange exception of Omar Vizquel.
+
+Another notable aspect of Group 4 is that they voted for an average of 5.6 candidates per ballot. Each voter is limited to voting for 10 candidates, and Groups 1-3 mostly filled their ballots, voting for 9.5 (Group 1), 8.4 (Group 2) and 9.3 (Group 3) candidates per ballot. Note the histogram below: Group 4 voters are the only ones who don't tend to use most of the ballot.
+
+```{r}
+hof2018$TotalVotes = apply(hof2018[,1:(ncol(hof2018) -1)], 1, sum)
+```
+
+
+```{r}
+
+filter(hof2018, cluster < 5) %>%
+ggplot() + aes(x = TotalVotes, fill = as.factor(cluster))+ geom_histogram(binwidth=1) + scale_x_continuous(breaks = 0:10) +
+ labs(fill = "Group", x = "Number of Candidates Voted For",  y = "Count")
+```
+
+## The Takeaway
+
+So there's a few interesting takeaways from these data. First, cluster analysis is fun and can help you identify some weird data. I never knew about the Cleveland homer. Imagine if a player received every vote except for one, because of a reason like that.
+
+Second, this can help predict some future ideas in voting. One of the main theories is that candidates who are not clear HOF material start out with a few votes and gradually gain votes. This makes sense if voters are voting for the maximum ten candidates.
+
+However, Group 4 ballots have plenty of space, and they are not voting for steroid users, or voting for Mussina and Schilling, the two longest-lasting pitchers on the ballot. For them to consider these candidates, they have to change their minds. 
+
+Finally, I'm interested in any ideas you have about this, as it's my first stab at analyzing this kind of data. Any comments, tweet me, or email me!
+
+
+

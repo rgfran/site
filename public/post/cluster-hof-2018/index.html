@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="theme" content="hugo-academic">
+  <meta name="generator" content="Hugo 0.40.3" />
+  <meta name="author" content="Robert G. Franklin, Jr.">
+
+  
+  
+  
+  
+    
+      
+    
+  
+  <meta name="description" content="This is an analysis of how different voters vote for the baseball Hall of Fame, using cluster analysis using 2018 data.
+The main motivation for this analysis is to examine patterns in voting, in order to see what kind of voters exist. I wanted to use a dataset to explore cluster analysis and try to teach myself this technique. The idea was to find a dataset where I had a hypothesis about what kind of clusters to expect, then to examine whether those clusters were there.">
+
+  
+  <link rel="alternate" hreflang="en-us" href="/post/cluster-hof-2018/">
+
+  
+
+
+  
+
+  
+  
+  <meta name="theme-color" content="#3f51b5">
+  
+  
+  
+  
+    
+  
+  
+    
+    
+      
+        <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/github.min.css">
+      
+    
+  
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha512-6MXa8B6uaO18Hid6blRMetEIoPqHf7Ux1tnyIQdpt9qI5OACx7C+O3IVTr98vwGnlcg0LOLa02i9Y1HpVhlfiw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.8.6/css/academicons.min.css" integrity="sha256-uFVgMKfistnJAfoCUQigIl+JfUaP47GrRKjf6CTPVmw=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" integrity="sha512-SfTiTlX6kk+qitfevl/7LibUOeJWlt9rbyDn92a1DqWOw9vWG2MFoays0sgObmWazO5BQPiFucnnEAjpAB+/Sw==" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.css" integrity="sha256-ygkqlh3CYSUri3LhQxzdcm0n1EQvH2Y+U5S2idbLtxs=" crossorigin="anonymous">
+  
+  
+  
+  
+  <link rel="stylesheet" href="//fonts.googleapis.com/css?family=Lato:400,700%7cMerriweather%7cRoboto&#43;Mono">
+  
+  <link rel="stylesheet" href="/styles.css">
+  
+
+  
+    <script>
+      window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+      ga('create', 'UA-119406996-1', 'auto');
+      
+      ga('require', 'eventTracker');
+      ga('require', 'outboundLinkTracker');
+      ga('require', 'urlChangeTracker');
+      ga('send', 'pageview');
+    </script>
+    <script async src="//www.google-analytics.com/analytics.js"></script>
+    
+    <script async src="https://cdnjs.cloudflare.com/ajax/libs/autotrack/2.4.1/autotrack.js" integrity="sha512-HUmooslVKj4m6OBu0OgzjXXr+QuFYy/k7eLI5jdeEy/F4RSgMn6XRWRGkFi5IFaFgy7uFTkegp3Z0XnJf3Jq+g==" crossorigin="anonymous"></script>
+    
+  
+
+  
+  <link rel="alternate" href="/index.xml" type="application/rss+xml" title="Robert Franklin">
+  <link rel="feed" href="/index.xml" type="application/rss+xml" title="Robert Franklin">
+  
+
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="icon" type="image/png" href="/img/icon.png">
+  <link rel="apple-touch-icon" type="image/png" href="/img/icon-192.png">
+
+  <link rel="canonical" href="/post/cluster-hof-2018/">
+
+  <meta property="twitter:card" content="summary_large_image">
+  
+  <meta property="twitter:site" content="@psydrfranklin">
+  <meta property="twitter:creator" content="@psydrfranklin">
+  
+  <meta property="og:site_name" content="Robert Franklin">
+  <meta property="og:url" content="/post/cluster-hof-2018/">
+  <meta property="og:title" content="Cluster Analysis of Baseball Hall of Fame ballots | Robert Franklin">
+  <meta property="og:description" content="This is an analysis of how different voters vote for the baseball Hall of Fame, using cluster analysis using 2018 data.
+The main motivation for this analysis is to examine patterns in voting, in order to see what kind of voters exist. I wanted to use a dataset to explore cluster analysis and try to teach myself this technique. The idea was to find a dataset where I had a hypothesis about what kind of clusters to expect, then to examine whether those clusters were there.">
+  <meta property="og:locale" content="en-us">
+  
+  <meta property="article:published_time" content="2018-08-02T00:00:00&#43;00:00">
+  
+  <meta property="article:modified_time" content="2018-08-02T00:00:00&#43;00:00">
+  
+
+  
+  
+
+  <title>Cluster Analysis of Baseball Hall of Fame ballots | Robert Franklin</title>
+
+</head>
+<body id="top" data-spy="scroll" data-target="#toc" data-offset="71" >
+
+<nav class="navbar navbar-default navbar-fixed-top" id="navbar-main">
+  <div class="container">
+
+    
+    <div class="navbar-header">
+      
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+              data-target=".navbar-collapse" aria-expanded="false">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      
+      <a class="navbar-brand" href="/">Robert Franklin</a>
+    </div>
+
+    
+    <div class="collapse navbar-collapse">
+
+      
+      
+      <ul class="nav navbar-nav navbar-right">
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#about">
+            
+            <span>Home</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#posts">
+            
+            <span>Posts</span>
+            
+          </a>
+        </li>
+
+        
+        
+
+        
+        
+        
+        
+        
+          
+        
+
+        <li class="nav-item">
+          <a href="/#projects">
+            
+            <span>R Information</span>
+            
+          </a>
+        </li>
+
+        
+        
+      
+
+      
+      </ul>
+
+    </div>
+  </div>
+</nav>
+
+
+<article class="article" itemscope itemtype="http://schema.org/Article">
+
+  
+
+
+  <div class="article-container">
+    <h1 itemprop="name">Cluster Analysis of Baseball Hall of Fame ballots</h1>
+
+    
+
+<div class="article-metadata">
+
+  <span class="article-date">
+    
+    <time datetime="2018-08-02 00:00:00 &#43;0000 UTC" itemprop="datePublished dateModified">
+      Aug 2, 2018
+    </time>
+  </span>
+  <span itemscope itemprop="author publisher" itemtype="http://schema.org/Person">
+    <meta itemprop="name" content="Robert G. Franklin, Jr.">
+  </span>
+
+  
+
+  
+  
+
+  
+  
+  
+  
+
+  
+  
+<div class="share-box" aria-hidden="true">
+  <ul class="share">
+    <li>
+      <a class="twitter"
+         href="https://twitter.com/intent/tweet?text=Cluster%20Analysis%20of%20Baseball%20Hall%20of%20Fame%20ballots&amp;url=%2fpost%2fcluster-hof-2018%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-twitter"></i>
+      </a>
+    </li>
+    <li>
+      <a class="facebook"
+         href="https://www.facebook.com/sharer.php?u=%2fpost%2fcluster-hof-2018%2f"
+         target="_blank" rel="noopener">
+        <i class="fa fa-facebook"></i>
+      </a>
+    </li>
+    <li>
+      <a class="linkedin"
+         href="https://www.linkedin.com/shareArticle?mini=true&amp;url=%2fpost%2fcluster-hof-2018%2f&amp;title=Cluster%20Analysis%20of%20Baseball%20Hall%20of%20Fame%20ballots"
+         target="_blank" rel="noopener">
+        <i class="fa fa-linkedin"></i>
+      </a>
+    </li>
+    <li>
+      <a class="weibo"
+         href="http://service.weibo.com/share/share.php?url=%2fpost%2fcluster-hof-2018%2f&amp;title=Cluster%20Analysis%20of%20Baseball%20Hall%20of%20Fame%20ballots"
+         target="_blank" rel="noopener">
+        <i class="fa fa-weibo"></i>
+      </a>
+    </li>
+    <li>
+      <a class="email"
+         href="mailto:?subject=Cluster%20Analysis%20of%20Baseball%20Hall%20of%20Fame%20ballots&amp;body=%2fpost%2fcluster-hof-2018%2f">
+        <i class="fa fa-envelope"></i>
+      </a>
+    </li>
+  </ul>
+</div>
+
+
+  
+
+</div>
+
+
+    <div class="article-style" itemprop="articleBody">
+      <p>This is an analysis of how different voters vote for the baseball Hall of Fame, using cluster analysis using 2018 data.</p>
+<p>The main motivation for this analysis is to examine patterns in voting, in order to see what kind of voters exist. I wanted to use a dataset to explore cluster analysis and try to teach myself this technique. The idea was to find a dataset where I had a hypothesis about what kind of clusters to expect, then to examine whether those clusters were there.</p>
+<p>The Baseball Hall of Fame has hundreds of voters vote every year in order to choose which candidates will enter the Hall of Fame. There are a few basic principles about this. Voters choose between 0 and 10 candidates on a ballot. A candidate needs to be on 75% of all ballots to be elected. Candidates need to receive at least 5% of the votes to stay on the ballot, and they have 10 years to be elected, or else they are removed.</p>
+<p>The main idea about recent Hall of Fame voting is what to do with candidates such as Barry Bonds and Roger Clemens, who had stellar careers, but are tainted with significant allegations that they used performance enhancing drugs (PEDs). Some voters believe that none of these candidates should be elected, others think that some of these candidates may be worthy, based on what they did before using PEDs, and some voters believe using PEDs is not something to consider because they were not technically banned for most of these candidates’ careers.</p>
+<p>This creates the theory that voters should sort into two clusters. In order to analyze the data, I collected publicly available ballots compiled from the <a href="http://www.bbhoftracker.com">Baseball Hall of Fame Tracker</a>. This compiles the votes for all voters who made their ballots publicly available, which is a non-representative sample of all ballots. Nonetheless, it’s interesting data to consider.</p>
+<p>I took the relevant data and formatted it into a spreadsheet with the candidates as rows and the voters as columns, and changed the data to code a vote as 1 and no vote as 0.</p>
+<p>First, the R libraries I used.</p>
+<pre class="r"><code>library(ape)
+library(psych)
+library(tidyverse)
+library(pander)</code></pre>
+<p>I loaded the data and removed any blank ballots, that is, the person didn’t vote for any candidate. I did this in order to remove any clusters that were blank ballots, as they would form their own clusters.</p>
+<pre class="r"><code>hof2018 = read.csv(&#39;data/hof_votes_2018.csv&#39;, row.names = 1)
+hof2018 = hof2018[apply(hof2018,1,sum)&gt;0,]</code></pre>
+<p>Now the clustering analysis. I start out with a binary distance matrix, because the data are dichotomous (yes/no). Then I do the hierarchical cluster of the matrix. I played with a couple other options, but did not find major differences, so I went with the first approach.</p>
+<pre class="r"><code>ddd = dist(hof2018, method = &#39;binary&#39;)
+hc &lt;- hclust(ddd)</code></pre>
+<p>To visualize the data, I used the <code>ape</code> package to create a phylogenetic tree. Since there are hundreds of voters, I removed the labels.</p>
+<pre class="r"><code>plot.phylo(as.phylo(hc), type=&quot;p&quot;, edge.width=2, 
+           show.tip.label = F, show.node.label = F, no.margin=TRUE)</code></pre>
+<p><img src="/post/2018-08-02-baseball_hof_cluster_2018_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>#plot(as.phylo(hc), cex = 0.9)</code></pre>
+<p>When looking at this, there appear to be two voters who break off from the rest of the voters. Other than that, there are two main clusters, each with two subsets of clusters. To explore a little further and decided to look at the four biggest clusters. In order to do this, we can use the <code>cutree()</code> function, which breaks the cluster in as many groups as possible.</p>
+<pre class="r"><code>hof2018$cluster = cutree(hc, 5)</code></pre>
+<p>This shows the five different groups. It’s really hard to see the fifth group, which are two blue names at the bottom of this plot. This plot is ugly, but I couldn’t figure out a better way to highlight the five different clusters. Suggestions welcome!</p>
+<pre class="r"><code>plot.phylo(as.phylo(hc), type=&quot;p&quot;, tip.color =hof2018$cluster, edge.width=2, 
+           show.tip.label = T, show.node.label = T, no.margin=TRUE)</code></pre>
+<p><img src="/post/2018-08-02-baseball_hof_cluster_2018_files/figure-html/unnamed-chunk-6-1.png" width="672" /></p>
+<p>First, what about those two odd voters in group 5, who are a cluster all to themselves. What do their ballots look like?</p>
+<pre class="r"><code>pandoc.table(t(subset(hof2018[,c(4,5,18,19)], hof2018$cluster == 5)), style=&#39;rmarkdown&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Bill Livingston</th>
+<th align="center">Mark Purdy</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Vlad.Guerrero</strong></td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Trevor.Hoffman</strong></td>
+<td align="center">0</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Jim.Thome</strong></td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Omar.Vizquel</strong></td>
+<td align="center">1</td>
+<td align="center">1</td>
+</tr>
+</tbody>
+</table>
+<p>They are a cluster among themselves because they had no clear rationale who they were voting for. The main difference that made them a separate category, was that neither voted for Chipper Jones. Only 4 voters did not vote for Jones, who received 99% support. <a href="https://articles.cleveland.com/livingston/index.ssf/2017/12/my_baseball_hall_of_fame_ballo.amp">Livingston</a> only voted for Thome and Vizquel, because they were Cleveland Indians. I’m going to remove them from the analysis and only focus on the other 4 clusters.</p>
+<p>Here are the mean number of votes each candidate received, based on the different clusters.</p>
+<pre class="r"><code>options(digits=2)
+x = filter(hof2018, cluster &lt; 5) %&gt;% group_by(cluster) %&gt;% summarize_all(funs(mean))</code></pre>
+<pre class="r"><code>o = data.frame(t(x[,2:22]))
+colnames(o) = c(&quot;Cluster 1&quot;, &quot;Cluster 2&quot;, &quot;Cluster 3&quot;, &quot;Cluster 4&quot;)
+pandoc.table(o, style=&#39;rmarkdown&#39;)</code></pre>
+<table>
+<thead>
+<tr class="header">
+<th align="center"> </th>
+<th align="center">Cluster 1</th>
+<th align="center">Cluster 2</th>
+<th align="center">Cluster 3</th>
+<th align="center">Cluster 4</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td align="center"><strong>Barry.Bonds</strong></td>
+<td align="center">1</td>
+<td align="center">0.04225</td>
+<td align="center">1</td>
+<td align="center">0</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Roger.Clemens</strong></td>
+<td align="center">1</td>
+<td align="center">0.04225</td>
+<td align="center">0.9839</td>
+<td align="center">0.03846</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Johnny.Damon</strong></td>
+<td align="center">0.01493</td>
+<td align="center">0.05634</td>
+<td align="center">0</td>
+<td align="center">0.01923</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Vlad.Guerrero</strong></td>
+<td align="center">0.9104</td>
+<td align="center">0.9577</td>
+<td align="center">0.9677</td>
+<td align="center">0.9423</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Trevor.Hoffman</strong></td>
+<td align="center">0.4179</td>
+<td align="center">0.8732</td>
+<td align="center">0.9194</td>
+<td align="center">0.8654</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Andruw.Jones</strong></td>
+<td align="center">0.0597</td>
+<td align="center">0.05634</td>
+<td align="center">0.03226</td>
+<td align="center">0.1154</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Chipper.Jones</strong></td>
+<td align="center">0.9851</td>
+<td align="center">0.9859</td>
+<td align="center">0.9919</td>
+<td align="center">1</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Jeff.Kent</strong></td>
+<td align="center">0.07463</td>
+<td align="center">0.2817</td>
+<td align="center">0.06452</td>
+<td align="center">0.25</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Edgar.Martinez</strong></td>
+<td align="center">0.791</td>
+<td align="center">0.8028</td>
+<td align="center">0.7984</td>
+<td align="center">0.6346</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Fred.McGriff</strong></td>
+<td align="center">0.1045</td>
+<td align="center">0.2113</td>
+<td align="center">0.1694</td>
+<td align="center">0.4808</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Mike.Mussina</strong></td>
+<td align="center">0.5821</td>
+<td align="center">0.9014</td>
+<td align="center">0.7984</td>
+<td align="center">0.3269</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Manny.Ramirez</strong></td>
+<td align="center">0.5373</td>
+<td align="center">0.02817</td>
+<td align="center">0.25</td>
+<td align="center">0.03846</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Scott.Rolen</strong></td>
+<td align="center">0.1493</td>
+<td align="center">0.1831</td>
+<td align="center">0.08871</td>
+<td align="center">0.07692</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Johan.Santana</strong></td>
+<td align="center">0.02985</td>
+<td align="center">0.02817</td>
+<td align="center">0.008065</td>
+<td align="center">0.01923</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Curt.Schilling</strong></td>
+<td align="center">0.4925</td>
+<td align="center">0.7606</td>
+<td align="center">0.7177</td>
+<td align="center">0.1154</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Gary.Sheffield</strong></td>
+<td align="center">0.08955</td>
+<td align="center">0.08451</td>
+<td align="center">0.1694</td>
+<td align="center">0.05769</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Sammy.Sosa</strong></td>
+<td align="center">0.2239</td>
+<td align="center">0</td>
+<td align="center">0.1048</td>
+<td align="center">0.01923</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Jim.Thome</strong></td>
+<td align="center">0.791</td>
+<td align="center">0.9437</td>
+<td align="center">0.9677</td>
+<td align="center">1</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Omar.Vizquel</strong></td>
+<td align="center">0.3433</td>
+<td align="center">0.4366</td>
+<td align="center">0.1371</td>
+<td align="center">0.6731</td>
+</tr>
+<tr class="even">
+<td align="center"><strong>Billy.Wagner</strong></td>
+<td align="center">0.01493</td>
+<td align="center">0.2394</td>
+<td align="center">0.07258</td>
+<td align="center">0.1346</td>
+</tr>
+<tr class="odd">
+<td align="center"><strong>Larry.Walker</strong></td>
+<td align="center">0.3433</td>
+<td align="center">0.4507</td>
+<td align="center">0.4435</td>
+<td align="center">0.1731</td>
+</tr>
+</tbody>
+</table>
+<p>When we look at the four groups, we can see clearly what are the attributes that divide them. Groups 1 and 3 voted almost unanimously for Bonds and Clemens, who have impeccable Hall of Fame credentials but are known for using PEDs, whereas Groups 2 and 4 almost completely did not vote for these users. But what else defined these groups?</p>
+<p>Group 1 did not like pitchers, relative to group 3, the other group who supported PEDs. Group 1 voted less for Trevor Hoffman than any other group. Hoffman who was a prolific closer. Since closers are pitchers who only pitch for an inning or two at most, they are seen as intrinsically less valuable than starting pitchers. Group 1 also liked other pitchers less than Group 3. Group 1 did like Larry Walker, much more than the other groups, giving him almost 75% support, whereas the other groups had a mean support of less than 40%. I’ll call Group 1 the “Hitters”, because they were biased for hitters, versus pitchers.</p>
+<p>Group 2 is like Group 4, because they both reject steroid users. However, Group 2 is a bit different because they use most of the ballot (see below) and were more likely to vote with Groups 1 and 3 on pitchers and on Edgar Martinez. I’ll call Group 2 the “NO PED” group.</p>
+<p>In contrast to Group 1, Group 3 supported PED users and supported pitchers more than group 1. We’ll call them “the Pitchers”</p>
+<p>Group 4, along with disliking steroid users, did not like the starting pitchers on the ballot. Mike Mussina and Curt Schilling, received over 50% support from all the other groups, but only 6% of support from Group 4. This is really surprising because the closer Hoffman was on 78% of the ballots in Group 4. received a higher percentage of votes than Schilling and Mussina.</p>
+<p>Group 4 was the most dissimilar, as it broke off from the other 3 groups at the highest level. I’ll title Group 4 as “The Gatekeepers”, since they tend to favor few candidates, do not like PED users, and did not like any other marginal candidates, with the strange exception of Omar Vizquel.</p>
+<p>Another notable aspect of Group 4 is that they voted for an average of 5.6 candidates per ballot. Each voter is limited to voting for 10 candidates, and Groups 1-3 mostly filled their ballots, voting for 9.5 (Group 1), 8.4 (Group 2) and 9.3 (Group 3) candidates per ballot. Note the histogram below: Group 4 voters are the only ones who don’t tend to use most of the ballot.</p>
+<pre class="r"><code>hof2018$TotalVotes = apply(hof2018[,1:(ncol(hof2018) -1)], 1, sum)</code></pre>
+<pre class="r"><code>filter(hof2018, cluster &lt; 5) %&gt;%
+ggplot() + aes(x = TotalVotes, fill = as.factor(cluster))+ geom_histogram(binwidth=1) + scale_x_continuous(breaks = 0:10) +
+ labs(fill = &quot;Group&quot;, x = &quot;Number of Candidates Voted For&quot;,  y = &quot;Count&quot;)</code></pre>
+<p><img src="/post/2018-08-02-baseball_hof_cluster_2018_files/figure-html/unnamed-chunk-11-1.png" width="672" /></p>
+<div id="the-takeaway" class="section level2">
+<h2>The Takeaway</h2>
+<p>So there’s a few interesting takeaways from these data. First, cluster analysis is fun and can help you identify some weird data. I never knew about the Cleveland homer. Imagine if a player received every vote except for one, because of a reason like that.</p>
+<p>Second, this can help predict some future ideas in voting. One of the main theories is that candidates who are not clear HOF material start out with a few votes and gradually gain votes. This makes sense if voters are voting for the maximum ten candidates.</p>
+<p>However, Group 4 ballots have plenty of space, and they are not voting for steroid users, or voting for Mussina and Schilling, the two longest-lasting pitchers on the ballot. For them to consider these candidates, they have to change their minds.</p>
+<p>Finally, I’m interested in any ideas you have about this, as it’s my first stab at analyzing this kind of data. Any comments, tweet me, or email me!</p>
+</div>
+
+    </div>
+
+    
+
+
+<div class="article-tags">
+  
+  <a class="btn btn-primary btn-outline" href="/tags/r/">R</a>
+  
+  <a class="btn btn-primary btn-outline" href="/tags/baseball/">Baseball</a>
+  
+</div>
+
+
+
+
+    
+    
+    <div class="article-widget">
+      <div class="hr-light"></div>
+      <h3>Related</h3>
+      <ul>
+        
+        <li><a href="/post/teaching-r-with-rstudio-cloud/">Teaching R with RStudio Cloud</a></li>
+        
+        <li><a href="/post/sentiment-bible/">Sentiment analysis in the Bible</a></li>
+        
+      </ul>
+    </div>
+    
+
+    
+
+    
+
+
+  </div>
+</article>
+
+<footer class="site-footer">
+  <div class="container">
+    <p class="powered-by">
+
+      &copy; 2018 &middot; 
+
+      Powered by the
+      <a href="https://sourcethemes.com/academic/" target="_blank" rel="noopener">Academic theme</a> for
+      <a href="https://gohugo.io" target="_blank" rel="noopener">Hugo</a>.
+
+      <span class="pull-right" aria-hidden="true">
+        <a href="#" id="back_to_top">
+          <span class="button_icon">
+            <i class="fa fa-chevron-up fa-2x"></i>
+          </span>
+        </a>
+      </span>
+
+    </p>
+  </div>
+</footer>
+
+
+<div id="modal" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close btn-large" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Cite</h4>
+      </div>
+      <div>
+        <pre><code class="modal-body tex"></code></pre>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-primary btn-outline js-copy-cite" href="#" target="_blank">
+          <i class="fa fa-copy"></i> Copy
+        </a>
+        <a class="btn btn-primary btn-outline js-download-cite" href="#" target="_blank">
+          <i class="fa fa-download"></i> Download
+        </a>
+        <div id="modal-error"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    
+
+    
+    
+
+    
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js" integrity="sha512-3P8rXCuGJdNZOnUx/03c1jOTnMn3rP63nBip5gOP2qmUh5YAdVAvFZ1E+QLZZbC1rtMrQb+mah3AfYW11RUrWA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.imagesloaded/4.1.3/imagesloaded.pkgd.min.js" integrity="sha512-umsR78NN0D23AzgoZ11K7raBD+R6hqKojyBZs1w8WvYlsI+QuKRGBx3LFCwhatzBunCjDuJpDHwxD13sLMbpRA==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha512-iztkobsvnjKfAtTNdHkGVjAYTrrtlC7mGp/54c40wowO7LhURYl3gVzzcEqGl/qKXQltJ2HwMrdLcNUdo+N/RQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.isotope/3.0.4/isotope.pkgd.min.js" integrity="sha512-VDBOIlDbuC4VWxGJNmuFRQ0Li0SKkDpmGyuhAG5LTDLd/dJ/S0WMVxriR2Y+CyPL5gzjpN4f/6iqWVBJlht0tQ==" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/fancybox/3.2.5/jquery.fancybox.min.js" integrity="sha256-X5PoE3KU5l+JcX+w09p/wHl9AzK333C4hJ2I9S5mD4M=" crossorigin="anonymous"></script>
+    
+    
+    <script src="/js/hugo-academic.js"></script>
+    
+
+    
+    
+      
+      
+      <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js" integrity="sha256-/BfiIkHlHoVihZdc6TFuj7MmJ0TWcWsMXkeDFwhi0zw=" crossorigin="anonymous"></script>
+      
+
+      
+
+      
+
+      <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    
+    
+
+  </body>
+</html>
+
