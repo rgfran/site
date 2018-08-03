@@ -4,7 +4,7 @@ title: Cluster Analysis of Baseball Hall of Fame ballots
 author: Robert Franklin
 date: '2018-08-02'
 slug: cluster-hof-2018
-draft: true
+draft: false
 categories: []
 tags:
   - R
