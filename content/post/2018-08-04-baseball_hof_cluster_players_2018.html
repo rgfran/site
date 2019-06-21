@@ -1,0 +1,55 @@
+---
+title: Cluster Analysis of Baseball Hall of Fame Candidates
+author: Robert Franklin
+date: '2018-08-04'
+slug: cluster-hof-2018-candidates
+draft: true
+categories: []
+tags:
+  - R
+  - Baseball
+summary: 'The types of Hall of Fame Candidates'
+header:
+  caption: ''
+  image: ''
+---
+
+
+
+<p><a href="/post/cluster-hof-2018/">In a previous entry</a>, I looked at how different voters voted for different candidates for the baseball Hall of Fame, as a way of learning cluster analysis. I found four distinct types of voters.</p>
+<p>Now I wanted to see what kind of candidates there were, and whether there were distinct candidates. This is a flip of the analysis in the previous entry. Please read that for more details about how the Hall of Fame works and where the data come from.</p>
+<p>First, the R libraries I used.</p>
+<pre class="r"><code>library(ape)
+library(psych)
+library(tidyverse)
+library(pander)</code></pre>
+<p>I loaded the data and removed any blank ballots, that is, the person didn’t vote for any candidate. I did this in order to remove any clusters that were blank ballots, as they would form their own clusters.</p>
+<pre class="r"><code>hof2018 = read.csv(&#39;data/hof_votes_2018.csv&#39;, row.names = 1)
+hof2018 = hof2018[apply(hof2018,1,sum)&gt;0,]
+hof2018.t = as.data.frame(t(hof2018))</code></pre>
+<p>Now the clustering analysis. I start out with a binary distance matrix, because the data are dichotomous (yes/no). Then I do the hierarchical cluster of the matrix. I played with a couple other options, but did not find major differences, so I went with the first approach.</p>
+<pre class="r"><code>ddd = dist(hof2018.t, method = &#39;binary&#39;)
+hc &lt;- hclust(ddd)</code></pre>
+<p>To visualize the data, I used the <code>ape</code> package to create a phylogenetic tree.</p>
+<pre class="r"><code>plot.phylo(as.phylo(hc), type=&quot;p&quot;, edge.width=2, 
+           show.tip.label = T, show.node.label = T, no.margin=TRUE)</code></pre>
+<p><img src="/post/2018-08-04-baseball_hof_cluster_players_2018_files/figure-html/unnamed-chunk-4-1.png" width="672" /></p>
+<pre class="r"><code>#plot(as.phylo(hc), cex = 0.9)</code></pre>
+<p>The cluster analysis shows some interesting patterns. There are three main clusters. The main cluster has the “mainstream” candidates, or those who received significant support. Many of the other candidates were in pairs. I’ll go through and try to analyze some of them.</p>
+<div id="the-hall-of-famers" class="section level2">
+<h2>The Hall-of-Famers</h2>
+<p>The three members elected to the hall with very high amounts of support (&gt;89.5%) were Chipper Jones, Vlad Guerrero, and Jim Thome. They are very tightly clustered. The candidate most similar to them was Trevor Hoffman, who was also elected, though with fewer votes (79.9%, just above the 75% threshold needed.</p>
+</div>
+<div id="my-bets-for-next-year" class="section level2">
+<h2>My bets for next year</h2>
+<p>Who are most similar to the ones elected? One branch higher, Mike Mussina and Edgar Martinez break off. They did not receive enough votes (Martinez received around 70% and Mussina received 63%). They are totally different players, as Martinez was known for being a designated hitter and Mussina was a pitcher, but are both very similar candidates. They were very good for a very long period of time, had good statistics but never outstanding seasons, and didn’t hit any of the thresholds which are considered a lock for the Hall of Fame (3000 hits or 500 home runs for hitters; 300 wins for a pitcher).</p>
+<p>Here’s hoping Martinez gets in soon, as his last year of eligibility is next year. Also, Mussina has five years to go, so it might be a couple more years.</p>
+</div>
+<div id="the-ped-users" class="section level2">
+<h2>The PED Users</h2>
+<p>The next cluster that forms is Barry Bonds and Roger Clemens, who are statistically two of the greatest players in history, but are widely considered to have used performance enhancing drugs (PEDs). <a href="/post/cluster-hof-2018/">As I discussed</a> in my last entry, some voters hold that against the candidates. What this shows is that voters who voted for Bonds almost certainly voted for Clemens. This confirms the ideas that the people who don’t vote for PED users are clearly looking to punish any users of PEDs.</p>
+</div>
+<div id="marginal-candidates" class="section level2">
+<h2>Marginal candidates</h2>
+<p>Which of the other candidates tend to cluster together? One interesting aspect is how Curt Schilling tends to be a cluster to himself. He has fairly similar career numbers to Mussina, as a good pitcher who never hit any major hallmarks for success. However, Schilling may be an interesting case because his popularity has been reduced due to some controversies.</p>
+</div>

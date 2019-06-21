@@ -7,10 +7,20 @@
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
     <copyright>&amp;copy; 2018</copyright>
-    <lastBuildDate>Thu, 02 Aug 2018 00:00:00 +0000</lastBuildDate>
+    <lastBuildDate>Sat, 04 Aug 2018 00:00:00 +0000</lastBuildDate>
     
 	<atom:link href="/tags/r/index.xml" rel="self" type="application/rss+xml" />
     
+    
+    <item>
+      <title>Cluster Analysis of Baseball Hall of Fame Candidates</title>
+      <link>/post/cluster-hof-2018-candidates/</link>
+      <pubDate>Sat, 04 Aug 2018 00:00:00 +0000</pubDate>
+      
+      <guid>/post/cluster-hof-2018-candidates/</guid>
+      <description>In a previous entry, I looked at how different voters voted for different candidates for the baseball Hall of Fame, as a way of learning cluster analysis. I found four distinct types of voters.
+Now I wanted to see what kind of candidates there were, and whether there were distinct candidates. This is a flip of the analysis in the previous entry. Please read that for more details about how the Hall of Fame works and where the data come from.</description>
+    </item>
     
     <item>
       <title>Cluster Analysis of Baseball Hall of Fame ballots</title>
